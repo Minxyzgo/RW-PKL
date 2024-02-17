@@ -1,0 +1,58 @@
+amends "../unit.pkl"
+
+import "../internal/internal_units.pkl"
+
+core {
+  name = "megaBuilderEx"
+  price = 100
+  maxHp = 9000
+  mass = 4000
+  techLevel = 1
+  overrideAndReplace {
+    internal_units.builder
+  }
+
+  displayText = "Mega Builder Ex"
+  displayDescription = """
+    Line 1
+    Line 2
+    Line 3
+    Line 4
+    """
+  buildSpeed = 1.s
+  displayRadius = 18
+
+  isBio = false
+
+  nanoBuildSpeed = 2.5
+  nanoRange = 95
+  nanoRepairSpeed = 0.3
+
+  canBuilds {
+    new {
+      unit = internal_units.extractor
+      pos = 3
+    }
+  }
+
+
+
+}
+
+turrets {
+  local self = this
+
+  new {
+    x = 0
+    y = 0
+
+    image = read("file:12.txt")
+    idleDir = 0
+
+    shoot_sound = "move"
+  }
+
+  (this[0]) {
+    attachedTo = self[0]
+  }
+}

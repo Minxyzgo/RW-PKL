@@ -1,0 +1,116 @@
+@ModuleInfo { minPklVersion = "0.25.1" }
+module rwpp.pkl.Turret
+
+import "Projectile.pkl" as P
+import "LogicBoolean.pkl" as L
+import "internal/internal_sounds.pkl"
+import "generation.pkl"
+
+class Turret {
+  hidden index: Int
+
+  x: Number?
+  y: Number?
+
+  projectile: P.Projectile?
+  altProjectile: P.Projectile((x) ->
+      if(x && altProjectileCondition == null)
+        throw("altProjectileCondition must not be null.")
+      else true)?
+
+  altProjectileCondition: L.LogicBoolean?
+
+  barrelX: Number?
+  barrelY: Number?
+  barrelHeight: Number?
+
+  size: Number?
+  turnSpeed: Number?
+  idleDir: Number?
+  idleDirReversing: Number?
+  shouldResetTurrent: Boolean?
+  idleSweepAngle: Number?
+  idleSweepDelay: Number?
+  idleSweepSpeed: Number?
+  idleSweepCondition: L.LogicBoolean?
+  idleSweepAddRandomDelay: Number?
+  idleSweepAddRandomAngle: Int?
+
+  @generation.Generation {
+    generationCons = (v) -> "attachedTo: \((v as Turret).index)"
+  }
+  attachedTo: Turret?
+  slave: Boolean?
+  isMainNanoTurret: Boolean?
+  energyUsage: Float?
+
+  @generation.Generation {
+    generationCons = (v) -> "resourceUsage: \(resourceUsageToStr(v))"
+  }
+  resourceUsage: ResourceUsage?
+
+  delay: Number?
+
+  @generation.Generation {
+    generationCons = (v) -> "linkDelayWithTurret: \((v as Turret).index)"
+  }
+  linkDelayWithTurret: Turret?
+
+  warmup: Number?
+  warmupCallDownRate: Number?
+  warmupNoReset: Boolean?
+  warmupShootDelayTransfer: Number?
+
+  onShoot_freezeBodyMovementFor: Boolean?
+  barrelOffsetX_onOddShots: Int?
+
+  canShoot: Boolean?
+  canAttackFlyingUnits: (L.LogicBoolean|Boolean)(canAttackRequireCanShoot)?
+  canAttackLandUnits: (L.LogicBoolean|Boolean)(canAttackRequireCanShoot)?
+  canAttackUnderwaterUnits: (L.LogicBoolean|Boolean)(canAttackRequireCanShoot)?
+  canAttackNotTouchingWaterUnits: (L.LogicBoolean|Boolean)(canAttackRequireCanShoot)?
+  canOnlyAttackUnitsWithTags: String(canAttackRequireCanShoot)?
+  canOnlyAttackUnitsWithoutTags: String(canAttackRequireCanShoot)?
+  canAttackCondition: L.LogicBoolean(canAttackRequireCanShoot)?
+  clearTurretTargetAfterFiring: Boolean?
+  limitingRange: Number?
+  limitingAngle: Number?
+  limitingMinRange: Number?
+  canAttackMaxAngle: Number?
+
+  interceptProjectiles_withTags: String?
+  interceptProjectiles_andTargetingGroundUnderDistance: Int?
+  interceptProjectiles_andUnderDistance: Int?
+  interceptProjectiles_andOverHeight: Int?
+  interceptProjectile_removeTargetLifeOnly: Boolean?
+
+  laserDefenceEnergyUse: Number?
+  aimOffsetSpread: Boolean?
+
+  invisible: (L.LogicBoolean|Boolean)?
+  image: Resource?
+  image_applyTeamColors: Boolean?
+  image_drawOffsetX: Number?
+  image_drawOffsetY: Number?
+  chargeEffectImage: Resource?
+
+  shoot_sound: (internal_sounds.InternalSounds|Resource)?
+
+
+  hidden canAttackRequireCanShoot = (v) -> if(v != false && v != null && canShoot != true) throw("canShoot must be true.") else true
+
+
+  local function resourceUsageToStr(v: Any) =
+    ((v as Typed)
+    .toMap()
+    .fold("", (l, k, v) -> if(v != null) l + "\(k)=\(v)," else l) as String)
+  .dropLast(1)
+}
+
+class ResourceUsage {
+  credits: Float?
+  energy: Float?
+  hp: Float?
+  shield: Float?
+  ammo: Float?
+}

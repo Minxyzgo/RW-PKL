@@ -1,0 +1,7 @@
+
+@ModuleInfo { minPklVersion = "0.25.1" }
+module rwpp.pkl.Projectile
+
+class Projectile {
+
+}

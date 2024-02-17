@@ -1,0 +1,46 @@
+
+module rwpp.pkl.unit
+
+import "pkl:reflect"
+import "Core.pkl" as C
+import "Graphics.pkl" as G
+import "Movement.pkl" as M
+import "Action.pkl" as A
+import "Turret.pkl" as T
+import "generation.pkl"
+import "rwini.pkl"
+
+core: C.Core
+
+graphics: G.Graphics
+
+movement: M.Movement
+
+actions: Mapping<String, A.Action>
+
+turrets: Listing<T.Turret> = new {
+  default { i ->
+    index = i + 1
+  }
+}
+
+local classes = List(C.Core, G.Graphics, M.Movement, T.Turret)
+
+output {
+  renderer = new rwini.Renderer {
+    keyConverters {
+      for (clz in classes) {
+        for (name, p in reflect.Class(clz).properties) {
+          when (p.annotations.findOrNull((it) -> it is generation.Generation) != null) {
+            [name] = (v) -> "GENERATION:" + (p.annotations.find((it) -> it is generation.Generation) as generation.Generation).generationCons.apply(v)
+          }
+        }
+      }
+    }
+
+    converters {
+      [Resource] = (res) -> (res).uri.replaceFirst("file:", "")
+    }
+  }
+}
+

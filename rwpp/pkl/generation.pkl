@@ -1,0 +1,5 @@
+module rwpp.pkl.generation
+
+class Generation extends Annotation {
+  generationCons: (Any) -> String
+}

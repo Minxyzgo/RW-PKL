@@ -1,0 +1,13 @@
+module rwpp.pkl.internal_units
+
+import "../Core.pkl"
+
+class InternalUnit extends Core.Unit
+
+builder: InternalUnit = new {
+  name = "builder"
+}
+
+extractor: InternalUnit = new {
+  name = "extractor"
+}
