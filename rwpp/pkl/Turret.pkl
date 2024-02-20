@@ -4,7 +4,7 @@ module rwpp.pkl.Turret
 import "Projectile.pkl" as P
 import "LogicBoolean.pkl" as L
 import "internal/internal_sounds.pkl"
-import "generation.pkl"
+import "converter.pkl"
 
 class Turret {
   hidden index: Int
@@ -36,23 +36,23 @@ class Turret {
   idleSweepAddRandomDelay: Number?
   idleSweepAddRandomAngle: Int?
 
-  @generation.Generation {
-    generationCons = (v) -> "attachedTo: \((v as Turret).index)"
+  @converter.Converter {
+    cons = (v) -> "attachedTo: \((v as Turret).index)"
   }
   attachedTo: Turret?
   slave: Boolean?
   isMainNanoTurret: Boolean?
   energyUsage: Float?
 
-  @generation.Generation {
-    generationCons = (v) -> "resourceUsage: \(resourceUsageToStr(v))"
+  @converter.Converter {
+    cons = (v) -> "resourceUsage: \(resourceUsageToStr(v))"
   }
   resourceUsage: ResourceUsage?
 
   delay: Number?
 
-  @generation.Generation {
-    generationCons = (v) -> "linkDelayWithTurret: \((v as Turret).index)"
+  @converter.Converter {
+    cons = (v) -> "linkDelayWithTurret: \((v as Turret).index)"
   }
   linkDelayWithTurret: Turret?
 

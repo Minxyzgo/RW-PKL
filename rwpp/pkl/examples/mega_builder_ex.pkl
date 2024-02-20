@@ -42,6 +42,14 @@ core {
 turrets {
   local self = this
 
+  default {
+    canShoot = true
+    canAttackFlyingUnits = true
+    canAttackLandUnits = true
+    canAttackUnderwaterUnits = true
+    ca
+  }
+
   new {
     x = 0
     y = 0

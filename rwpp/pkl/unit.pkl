@@ -7,7 +7,7 @@ import "Graphics.pkl" as G
 import "Movement.pkl" as M
 import "Action.pkl" as A
 import "Turret.pkl" as T
-import "generation.pkl"
+import "converter.pkl"
 import "rwini.pkl"
 
 core: C.Core
@@ -31,8 +31,8 @@ output {
     keyConverters {
       for (clz in classes) {
         for (name, p in reflect.Class(clz).properties) {
-          when (p.annotations.findOrNull((it) -> it is generation.Generation) != null) {
-            [name] = (v) -> "GENERATION:" + (p.annotations.find((it) -> it is generation.Generation) as generation.Generation).generationCons.apply(v)
+          when (p.annotations.findOrNull((it) -> it is converter.Converter) != null) {
+            [name] = (v) -> "GENERATION:" + (p.annotations.find((it) -> it is converter.Converter) as converter.Converter).cons.apply(v)
           }
         }
       }

@@ -1,7 +1,7 @@
 @ModuleInfo { minPklVersion = "0.25.1" }
 module rwpp.pkl.Core
 
-import "generation.pkl"
+import "converter.pkl"
 
 abstract class Unit {
   name: String(!isBlank)
@@ -37,8 +37,8 @@ class Core extends Unit {
   nanoRepairSpeed: Float?
   nanoBuildSpeed: Float?
 
-  @generation.Generation {
-    generationCons = (v) ->
+  @converter.Converter {
+    cons = (v) ->
         let (list = (v as Listing<CanBuild>).toList())
           list.mapIndexed((i, m) ->
             """
@@ -49,8 +49,8 @@ class Core extends Unit {
   }
   canBuilds: Listing<CanBuild>?
 
-  @generation.Generation {
-    generationCons = (v) ->
+  @converter.Converter {
+    cons = (v) ->
         let (list = (v as Listing<Unit>).toList())
           "overrideAndReplace" + ": " + list.map((it) -> it.name).join(", ")
   }

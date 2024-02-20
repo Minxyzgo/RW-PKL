@@ -1,0 +1,5 @@
+module rwpp.pkl.generation
+
+class Converter extends Annotation {
+  cons: (Any) -> String
+}
